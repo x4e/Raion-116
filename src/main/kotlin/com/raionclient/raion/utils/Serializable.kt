@@ -14,6 +14,7 @@ interface Saveable: Configurable, Serializable {
 		get() = this::class.java.name
 	
 	override fun load() {
+		configFile.parentFile.mkdirs()
 		if (!configFile.exists()) {
 			configFile.createNewFile()
 			return

@@ -9,9 +9,17 @@ import kotlin.reflect.KProperty
  */
 abstract class Value<T>(
 	val name: String,
-	var value: T
+	value: T
 ): Serializable, ReadWriteProperty<Any, T> {
+	var value: T = value
+		set(value) {
+			field = value
+			callbacks.forEach {
+				it(field, value)
+			}
+		}
 	val defaultVal: T = value
+	private val callbacks: MutableCollection<(oldValue: T, newValue: T) -> Unit> = arrayListOf()
 	
 	override fun getValue(thisRef: Any, property: KProperty<*>): T {
 		return value
@@ -19,5 +27,9 @@ abstract class Value<T>(
 	
 	override fun setValue(thisRef: Any, property: KProperty<*>, value: T) {
 		this.value = value
+	}
+	
+	fun addCallback(callback: (oldValue: T, newValue: T) -> Unit): Value<T> = this.apply {
+		callbacks.add(callback)
 	}
 }

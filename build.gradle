@@ -16,6 +16,7 @@ minecraft {
 
 repositories {
 	maven { url = "http://maven.fabricmc.net/" }
+	maven { url = "https://jitpack.io" }
 }
 
 dependencies {
@@ -47,3 +48,5 @@ jar {
 }
 
 compileKotlin.kotlinOptions.jvmTarget = "1.8"
+compileKotlin.kotlinOptions.noStdlib = true
+compileKotlin.kotlinOptions.noReflect = true

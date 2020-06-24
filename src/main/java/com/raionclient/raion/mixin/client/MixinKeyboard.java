@@ -1,6 +1,9 @@
 package com.raionclient.raion.mixin.client;
 
 import com.raionclient.raion.Raion;
+import com.raionclient.raion.event.events.KeyDownEvent;
+import com.raionclient.raion.event.events.KeyUpEvent;
+import com.raionclient.raion.event.system.EventDispatcher;
 import com.raionclient.raion.utils.Key;
 import net.minecraft.client.Keyboard;
 import net.minecraft.client.MinecraftClient;
@@ -20,9 +23,9 @@ public class MixinKeyboard {
             Key key = Key.Companion.get(code);
             if (key != null && key != Key.UNKNOWN) {
                 if (key.isKeyDown()) {
-                    Raion.INSTANCE.onKeyPress(key);
+                    EventDispatcher.dispatch(new KeyDownEvent(key));
                 } else {
-                    Raion.INSTANCE.onKeyUp(key);
+                    EventDispatcher.dispatch(new KeyUpEvent(key));
                 }
             }
         }

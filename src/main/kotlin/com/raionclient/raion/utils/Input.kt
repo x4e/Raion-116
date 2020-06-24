@@ -17,7 +17,28 @@ enum class Mouse(val code: Int) {
 	MOUSE_5(4),
 	MOUSE_6(5),
 	MOUSE_7(6),
-	MOUSE_8(7),
+	MOUSE_8(7);
+	
+	private val niceName = this.name.removePrefix("MOUSE_")
+	override fun toString(): String = niceName
+	
+	val isKeyDown: Boolean
+		get() = this != UNKNOWN && InputUtil.isKeyPressed(MinecraftClient.getInstance().window.handle, this.code)
+	
+	companion object {
+		private val codeMap: MutableMap<Int, Mouse> = hashMapOf()
+		private val nameMap: MutableMap<String, Mouse> = hashMapOf()
+		
+		operator fun get(code: Int): Mouse = codeMap[code] ?: UNKNOWN
+		operator fun get(name: String): Mouse = nameMap[name] ?: UNKNOWN
+		
+		init {
+			for (value in values()) {
+				codeMap[value.code] = value
+				nameMap[value.toString()] = value
+			}
+		}
+	}
 }
 enum class Key(val code: Int) {
 	UNKNOWN(-1),
@@ -146,18 +167,18 @@ enum class Key(val code: Int) {
 	override fun toString(): String = niceName
 	
 	val isKeyDown: Boolean
-		get() = this != Key.UNKNOWN && InputUtil.isKeyPressed(MinecraftClient.getInstance().window.handle, this.code)
+		get() = this != UNKNOWN && InputUtil.isKeyPressed(MinecraftClient.getInstance().window.handle, this.code)
 	
 	companion object {
-		private val keyMap: MutableMap<Int, Key> = hashMapOf()
+		private val codeMap: MutableMap<Int, Key> = hashMapOf()
 		private val nameMap: MutableMap<String, Key> = hashMapOf()
 		
-		operator fun get(code: Int): Key? = keyMap[code]
-		operator fun get(name: String): Key? = nameMap[name]
+		operator fun get(code: Int): Key = codeMap[code] ?: UNKNOWN
+		operator fun get(name: String): Key = nameMap[name] ?: UNKNOWN
 		
 		init {
 			for (value in values()) {
-				keyMap[value.code] = value
+				codeMap[value.code] = value
 				nameMap[value.toString()] = value
 			}
 		}

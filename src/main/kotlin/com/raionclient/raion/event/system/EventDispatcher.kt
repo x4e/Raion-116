@@ -9,31 +9,31 @@ import java.util.*
 object EventDispatcher {
 	private val eventListeners: MutableMap<Class<*>, MutableCollection<Listener<*>>> = hashMapOf()
 	
-	inline fun <reified T> register(active: Boolean = true, noinline lambda: (T) -> Unit) = register(active, T::class.java, lambda)
-	fun <T> register(active: Boolean = true, type: Class<T>, lambda: (T) -> Unit) {
-		val listener = Listener(lambda, active)
+	@JvmStatic
+	inline fun <reified T> register(noinline lambda: (T) -> Unit) = register(T::class.java, lambda)
+	@JvmStatic
+	fun <T> register(type: Class<T>, lambda: (T) -> Unit) = register(type, Listener(lambda))
+	@JvmStatic
+	fun <T> register(type: Class<T>, listener: Listener<T>) {
 		eventListeners.getOrPut(type, {LinkedList()}).add(listener)
 	}
 	
+	@JvmStatic
 	fun dispatch(event: Any) {
-		logger.info("Dispatching $event")
 		var type: Class<*>? = event::class.java
 		while (type != null) {
-			logger.info("type $type")
 			eventListeners[type]?.forEach {
 				if (it.active) {
 					it(event)
 				}
 			}
-			
 			type = type.superclass
 		}
-		logger.info("Final type $type")
 	}
 	
-	private class Listener<T>(
+	open class Listener<T>(
 		val lambda: (T) -> Unit,
-		val active :Boolean = false
+		open var active: Boolean = true
 	) {
 		operator fun invoke(event: Any) {
 			lambda(event as T)
