@@ -1,0 +1,33 @@
+{
+    "schemaVersion": 1,
+    "id": "raion",
+    "version": "${version}",
+    "name": "Raion",
+    "description": "",
+    "authors": [
+        "cookiedragon234",
+        "robeart"
+    ],
+    "icon": "assets/modid/icon.png",
+    "environment": "*",
+    "entrypoints": {
+        "main": [
+            {
+                "value": "com.raionclient.raion.Raion::init",
+                "adapter": "kotlin"
+            }
+        ]
+    },
+    "mixins": [
+        "raion.mixins.json"
+    ],
+    "depends": {
+        "fabricloader": ">=0.7.1",
+        "fabric": "*",
+        "fabric-language-kotlin": "*",
+        "minecraft": "1.16.x"
+    },
+    "suggests": {
+        "flamingo": "*"
+    }
+}
