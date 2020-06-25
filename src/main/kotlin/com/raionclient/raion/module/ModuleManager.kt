@@ -4,13 +4,13 @@ import com.google.common.reflect.ClassPath
 import com.google.gson.JsonObject
 import com.raionclient.raion.Raion
 import com.raionclient.raion.Raion.logger
-import com.raionclient.raion.module.movement.FlightModule
-import com.raionclient.raion.module.movement.InventoryMoveModule
-import com.raionclient.raion.module.movement.NoSlowModule
-import com.raionclient.raion.module.movement.VelocityModule
+import com.raionclient.raion.module.movement.*
+import com.raionclient.raion.module.player.FastPlaceModule
+import com.raionclient.raion.module.player.NoFallModule
 import com.raionclient.raion.module.player.NoRotateModule
 import com.raionclient.raion.module.player.ReachModule
 import com.raionclient.raion.module.render.ClickGuiModule
+import com.raionclient.raion.module.render.ExtraTabModule
 import com.raionclient.raion.module.render.NoRenderModule
 import com.raionclient.raion.module.render.StorageEspModule
 import com.raionclient.raion.utils.Configurable
@@ -31,13 +31,17 @@ object ModuleManager: Saveable {
 	init {
 		this += FlightModule
 		this += InventoryMoveModule
+		this += JesusModule
 		this += NoSlowModule
 		this += VelocityModule
 		
+		this += FastPlaceModule
+		this += NoFallModule
 		this += NoRotateModule
 		this += ReachModule
 		
 		this += ClickGuiModule
+		this += ExtraTabModule
 		this += NoRenderModule
 		this += StorageEspModule
 	}

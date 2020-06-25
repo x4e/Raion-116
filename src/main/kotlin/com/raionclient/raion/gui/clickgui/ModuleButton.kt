@@ -26,7 +26,7 @@ class ModuleButton(
 	val valueButtons: Collection<ModuleButton> = arrayListOf()
 	
 	override fun render(matrices: MatrixStack, mousePos: Vec2f) {
-		val colour = if (module.enabled) Color(0, 0, 0, 70) else Color(0, 0, 0, 50)
+		val colour = if (module.enabled) Color(255, 255, 255, 70) else Color(0, 0, 0, 50)
 		matrices.draw (glMode = GL11.GL_QUADS, format = VertexFormats.POSITION_COLOR) {
 			box(posX + 1f, posY + 1f, rightX - 1f, posY + titleHeight - 1f, colour)
 		}

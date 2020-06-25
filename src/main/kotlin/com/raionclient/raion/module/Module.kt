@@ -25,7 +25,6 @@ abstract class Module(
 	val mc = MinecraftClient.getInstance()
 	var enabled by BooleanValue("Enabled", false)
 		.addCallback { oldValue, newValue ->
-			println("Toggled $name ($newValue)")
 			if (newValue) {
 				onEnabled()
 			} else {

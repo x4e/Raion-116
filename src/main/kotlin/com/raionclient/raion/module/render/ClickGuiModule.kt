@@ -30,8 +30,18 @@ object ClickGuiModule: Module("Click Gui", "A clickable gui", Category.RENDER, K
 	
 	// Dont serialize the enabled state
 	override fun write(jsonObject: JsonObject) {
+		super.write(jsonObject)
 	}
 	override fun read(jsonObject: JsonObject) {
+		if (jsonObject.has(name)) {
+			val moduleObj = jsonObject.get(name).asJsonObject
+			for (value in values) {
+				if (value == this::enabled) continue
+				try {
+					value.read(moduleObj)
+				} catch (t: Throwable) { t.printStackTrace() }
+			}
+		}
 	}
 	
 	object ClickGuiScreen: Screen(LiteralText("Raion ClickGui")) {

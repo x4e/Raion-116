@@ -2,18 +2,26 @@
     "required": true,
     "package": "com.raionclient.raion.mixin",
     "compatibilityLevel": "JAVA_8",
+    "priority": 2147483647,
+    "mixinPriority": 2147483647,
     "mixins": [
         "client.MixinKeyboard",
+        "client.MixinMain",
         "client.MixinMinecraftClient",
+        "client.gui.hud.MixinInGameOverlayRenderer",
+        "client.gui.hud.MixinPlayerListHud",
         "client.input.MixinKeyboardInput",
+        "client.network.MixinClientConnection",
         "client.network.MixinClientPlayerEntity",
         "client.network.MixinClientPlayerInteractionManager",
         "client.network.MixinClientPlayNetworkHandler",
+        "client.network.packet.MixinPlayerMoveC2SPacket",
         "client.options.MixinKeybinding",
         "client.render.MixinBackgroundRenderer",
         "client.render.MixinGameRenderer",
         "client.render.MixinWorldRenderer",
-        "entity.MixinEntity"
+        "entity.MixinEntity",
+        "entity.MixinLivingEntity"
     ],
     "refmap": "raion.mixins.refmap.json",
     "injectors": {
