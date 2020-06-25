@@ -7,6 +7,8 @@ import com.raionclient.raion.Raion.logger
 import com.raionclient.raion.module.movement.FlightModule
 import com.raionclient.raion.module.movement.InventoryMoveModule
 import com.raionclient.raion.module.movement.NoSlowModule
+import com.raionclient.raion.module.movement.VelocityModule
+import com.raionclient.raion.module.player.NoRotateModule
 import com.raionclient.raion.module.player.ReachModule
 import com.raionclient.raion.module.render.ClickGuiModule
 import com.raionclient.raion.module.render.NoRenderModule
@@ -24,19 +26,23 @@ import java.lang.reflect.Modifier
  */
 @Suppress("UnstableApiUsage")
 object ModuleManager: Saveable {
-	val modules: MutableCollection<Module> = arrayListOf()
+	val modules: MutableCollection<Module> = hashSetOf()
 	
 	init {
 		this += FlightModule
 		this += InventoryMoveModule
-		this += ClickGuiModule
 		this += NoSlowModule
-		this += StorageEspModule
-		this += NoRenderModule
+		this += VelocityModule
+		
+		this += NoRotateModule
 		this += ReachModule
+		
+		this += ClickGuiModule
+		this += NoRenderModule
+		this += StorageEspModule
 	}
 	
-	operator fun plusAssign(module: Module) {
+	inline operator fun plusAssign(module: Module) {
 		modules.add(module)
 	}
 	

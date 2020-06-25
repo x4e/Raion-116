@@ -8,10 +8,12 @@
         "client.input.MixinKeyboardInput",
         "client.network.MixinClientPlayerEntity",
         "client.network.MixinClientPlayerInteractionManager",
+        "client.network.MixinClientPlayNetworkHandler",
         "client.options.MixinKeybinding",
         "client.render.MixinBackgroundRenderer",
         "client.render.MixinGameRenderer",
-        "client.render.MixinWorldRenderer"
+        "client.render.MixinWorldRenderer",
+        "entity.MixinEntity"
     ],
     "refmap": "raion.mixins.refmap.json",
     "injectors": {
