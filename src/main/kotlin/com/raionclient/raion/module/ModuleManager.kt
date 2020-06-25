@@ -7,7 +7,10 @@ import com.raionclient.raion.Raion.logger
 import com.raionclient.raion.module.movement.FlightModule
 import com.raionclient.raion.module.movement.InventoryMoveModule
 import com.raionclient.raion.module.movement.NoSlowModule
+import com.raionclient.raion.module.player.ReachModule
 import com.raionclient.raion.module.render.ClickGuiModule
+import com.raionclient.raion.module.render.NoRenderModule
+import com.raionclient.raion.module.render.StorageEspModule
 import com.raionclient.raion.utils.Configurable
 import com.raionclient.raion.utils.Saveable
 import net.fabricmc.loader.FabricLoader
@@ -28,6 +31,9 @@ object ModuleManager: Saveable {
 		this += InventoryMoveModule
 		this += ClickGuiModule
 		this += NoSlowModule
+		this += StorageEspModule
+		this += NoRenderModule
+		this += ReachModule
 	}
 	
 	operator fun plusAssign(module: Module) {

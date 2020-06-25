@@ -30,11 +30,10 @@ public class MixinKeyboard {
 		if (window == mc.getWindow().getHandle()) {
 			Key key = Key.Companion.get(code);
 			if (key != Key.UNKNOWN) {
-				boolean shouldProcess = (mc.currentScreen == null || mc.currentScreen.passEvents);
 				if (key.isKeyDown()) {
-					EventDispatcher.dispatch(new KeyDownEvent(key, shouldProcess));
+					EventDispatcher.dispatch(new KeyDownEvent(key));
 				} else {
-					EventDispatcher.dispatch(new KeyUpEvent(key, shouldProcess));
+					EventDispatcher.dispatch(new KeyUpEvent(key));
 				}
 			}
 		}

@@ -16,24 +16,6 @@ import net.minecraft.client.util.InputUtil
  * @author cookiedragon234 25/Jun/2020
  */
 object InventoryMoveModule: Module("Inventory Move", "Move while in your inventory", Category.MOVEMENT) {
-	init {
-		/*val keys = arrayOf(KEY_W, KEY_A, KEY_S, KEY_D, KEY_LEFT_SHIFT, KEY_LEFT_CONTROL, KEY_SPACE)
-		register { event: KeyEvent ->
-			println("Key Event $event")
-			if (!event.shouldProcess) {
-				val key = event.key
-				if (keys.contains(key)) {
-					val key2 = InputUtil.fromKeyCode(key.code, -1)
-					if (event is KeyUpEvent) {
-						KeyBinding.setKeyPressed(key2, false)
-					} else if (event is KeyDownEvent) {
-						KeyBinding.setKeyPressed(key2, true)
-					}
-				}
-			}
-		}*/
-	}
-	
 	fun process(input: Input, sneakingPressed: Boolean) {
 		if (input is KeyboardInput) {
 			val settings = mc.options

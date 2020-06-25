@@ -1,6 +1,7 @@
 package com.raionclient.raion.event.system
 
 import com.raionclient.raion.Raion.logger
+import java.lang.IllegalStateException
 import java.util.*
 
 /**
@@ -24,7 +25,11 @@ object EventDispatcher {
 		while (type != null) {
 			eventListeners[type]?.forEach {
 				if (it.active) {
-					it(event)
+					try {
+						it(event)
+					} catch (t: Throwable) {
+						IllegalStateException("Error invoking event $event", t).printStackTrace()
+					}
 				}
 			}
 			type = type.superclass

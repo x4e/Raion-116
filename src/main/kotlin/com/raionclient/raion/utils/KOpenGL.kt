@@ -3,10 +3,7 @@ package com.raionclient.raion.utils
 import com.mojang.blaze3d.systems.RenderSystem
 import com.raionclient.raion.gui.Box2f
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.render.BufferBuilder
-import net.minecraft.client.render.BufferRenderer
-import net.minecraft.client.render.Tessellator
-import net.minecraft.client.render.VertexFormat
+import net.minecraft.client.render.*
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Matrix4f
@@ -23,7 +20,7 @@ class KOpenGLRenderer(val matrices: Matrix4f, val bufferBuilder: BufferBuilder) 
 }
 class KOpenGLVertex(val matrices: Matrix4f, val bufferBuilder: BufferBuilder)
 
-inline fun <T> MatrixStack.draw(translate: Boolean = false, glMode: Int? = null, format: VertexFormat? = null, action: KOpenGLRenderer.() -> T): T {
+inline fun <T> MatrixStack.draw(translate: Camera? = null, glMode: Int? = null, format: VertexFormat? = null, action: KOpenGLRenderer.() -> T): T {
 	RenderSystem.enableBlend()
 	RenderSystem.disableTexture()
 	RenderSystem.defaultBlendFunc()
@@ -33,7 +30,7 @@ inline fun <T> MatrixStack.draw(translate: Boolean = false, glMode: Int? = null,
 	val bb = ts.buffer
 	try {
 		if (glMode != null && format != null) bb.begin(glMode, format)
-		if (translate) this.translateToRender()
+		if (translate != null) this.translateToRender(translate)
 		return action(KOpenGLRenderer(model, bb))
 	} finally {
 		try {
@@ -57,8 +54,8 @@ inline fun KOpenGLRenderer.vertex(action: KOpenGLVertex.() -> Unit): KOpenGLRend
 	}
 }
 
-fun <T: MatrixStack> T.translateToRender(): T = this.apply {
-	val pos = mc.gameRenderer.camera.pos
+fun <T: MatrixStack> T.translateToRender(camera: Camera): T = this.apply {
+	val pos = camera.pos
 	this.translate(
 		-pos.x,
 		-pos.y,

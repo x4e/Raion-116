@@ -30,4 +30,12 @@ public class MixinClientPlayerEntity {
 			input.tick(bl);
 		}
 	}
+	
+	@Redirect(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isUsingItem()Z"))
+	private boolean isUsingItemRedir(ClientPlayerEntity clientPlayerEntity) {
+		if (NoSlowModule.INSTANCE.getEnabled()) {
+			return false;
+		}
+		return clientPlayerEntity.isUsingItem();
+	}
 }

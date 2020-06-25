@@ -7,7 +7,11 @@
         "client.MixinMinecraftClient",
         "client.input.MixinKeyboardInput",
         "client.network.MixinClientPlayerEntity",
-        "client.options.MixinKeybinding"
+        "client.network.MixinClientPlayerInteractionManager",
+        "client.options.MixinKeybinding",
+        "client.render.MixinBackgroundRenderer",
+        "client.render.MixinGameRenderer",
+        "client.render.MixinWorldRenderer"
     ],
     "refmap": "raion.mixins.refmap.json",
     "injectors": {

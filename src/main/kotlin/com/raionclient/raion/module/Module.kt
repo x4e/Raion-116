@@ -53,7 +53,7 @@ abstract class Module(
 		this.values = ArrayList(valueSet)
 		
 		EventDispatcher.register { event: KeyDownEvent ->
-			if (event.shouldProcess && event.key == keyBind) {
+			if (mc.currentScreen == null && event.key == keyBind) {
 				enabled = enabled.not()
 			}
 		}
@@ -90,7 +90,8 @@ abstract class Module(
 enum class Category {
 	COMBAT,
 	MOVEMENT,
-	RENDER
+	RENDER,
+	PLAYER
 }
 
 class ModuleEventListener<T>(lambda: (T) -> Unit, val module: Module) : EventDispatcher.Listener<T>(lambda) {
