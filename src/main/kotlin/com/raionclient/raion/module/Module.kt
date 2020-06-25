@@ -53,7 +53,7 @@ abstract class Module(
 		this.values = ArrayList(valueSet)
 		
 		EventDispatcher.register { event: KeyDownEvent ->
-			if (event.key == keyBind) {
+			if (event.shouldProcess && event.key == keyBind) {
 				enabled = enabled.not()
 			}
 		}

@@ -3,6 +3,8 @@ package com.raionclient.raion.module.render
 import com.google.gson.JsonObject
 import com.raionclient.raion.gui.Drawable
 import com.raionclient.raion.gui.Panel
+import com.raionclient.raion.gui.clickgui.CategoryPanel
+import com.raionclient.raion.gui.clickgui.ModuleButton
 import com.raionclient.raion.module.Category
 import com.raionclient.raion.module.Module
 import com.raionclient.raion.module.ModuleManager
@@ -35,14 +37,13 @@ object ClickGuiModule: Module("Click Gui", "A clickable gui", Category.RENDER, K
 	object ClickGuiScreen: Screen(LiteralText("Raion ClickGui")) {
 		val panels = arrayListOf<Drawable>()
 		init {
-			var x = 0f
+			var x = 10f
 			for (category in Category.values()) {
-				panels.add(Panel(
-					category.name,
-					ModuleManager.modules.filter { it.category == category }.map {  }
+				panels.add(CategoryPanel(
+					category
 				).also {
 					it.posX = x
-					it.posY = 20f
+					it.posY = 10f
 				})
 				x += 150f
 			}
@@ -55,6 +56,8 @@ object ClickGuiModule: Module("Click Gui", "A clickable gui", Category.RENDER, K
 		override fun tick() {
 			panels.forEach { it.onUpdate() }
 		}
+		
+		override fun isPauseScreen(): Boolean = false
 		override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
 			val mousePos = Vec2f(mouseX.toFloat(), mouseY.toFloat())
 			panels.forEach { it.render(matrices, mousePos) }

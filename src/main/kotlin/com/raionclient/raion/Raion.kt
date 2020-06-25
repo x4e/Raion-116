@@ -17,6 +17,7 @@ object Raion {
 	val logger = LogManager
 		.getContext(this::class.java.classLoader, false, this::class.java.getResource("/log4j2.raion.xml").toURI())
 		.getLogger("Raion")
+	val mc = MinecraftClient.getInstance()
 	
 	fun init() {
 		logger.info("Raion Init")

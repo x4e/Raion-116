@@ -70,8 +70,8 @@ fun KOpenGLRenderer.next() = this.apply {
 	this.bufferBuilder.next()
 }
 
-fun KOpenGLRenderer.box(box2f: Box2f, color: Color) = this.apply {
-	for (corner in box2f.corners) {
+fun KOpenGLRenderer.box(box2f: Box2f, color: Color, offset: Float = 0f) = this.apply {
+	for (corner in box2f.getCornersOffset(offset)) {
 		vertex {
 			vertex(corner)
 			color(color)
@@ -79,8 +79,46 @@ fun KOpenGLRenderer.box(box2f: Box2f, color: Color) = this.apply {
 	}
 }
 
+fun KOpenGLRenderer.box(x1: Float, y1: Float, x2: Float, y2: Float, color: Color) = this.apply {
+	var x1 = x1
+	var y1 = y1
+	var x2 = x2
+	var y2 = y2
+	if (x1 < x2) {
+		val j = x1
+		x1 = x2
+		x2 = j
+	}
+	
+	if (y1 < y2) {
+		val j = y1
+		y1 = y2
+		y2 = j
+	}
+	vertex {
+		vertex(x1, y2, 0f)
+		color(color)
+	}
+	vertex {
+		vertex(x2, y2, 0f)
+		color(color)
+	}
+	vertex {
+		vertex(x2, y1, 0f)
+		color(color)
+	}
+	vertex {
+		vertex(x1, y1, 0f)
+		color(color)
+	}
+}
+
 fun KOpenGLVertex.vertex(x: Double, y: Double, z: Double): KOpenGLVertex = this.apply {
 	this.bufferBuilder.vertex(x, y, z)
+}
+
+fun KOpenGLVertex.vertex(x: Float, y: Float, z: Float): KOpenGLVertex = this.apply {
+	this.vertex(x.toDouble(), y.toDouble(), z.toDouble())
 }
 
 fun KOpenGLVertex.vertex(pos: Vec2f): KOpenGLVertex = this.apply {

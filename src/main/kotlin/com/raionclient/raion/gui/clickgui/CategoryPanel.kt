@@ -1,42 +1,43 @@
-package com.raionclient.raion.gui
+package com.raionclient.raion.gui.clickgui
 
-import com.mojang.blaze3d.systems.RenderSystem
+import com.raionclient.raion.gui.DrawableBox
 import com.raionclient.raion.gui.font.RaionFontRenderer
+import com.raionclient.raion.module.Category
+import com.raionclient.raion.module.ModuleManager
 import com.raionclient.raion.utils.Mouse
 import com.raionclient.raion.utils.Vec2f
 import com.raionclient.raion.utils.box
 import com.raionclient.raion.utils.draw
-import net.minecraft.client.render.VertexFormats.POSITION_COLOR
+import net.minecraft.client.render.VertexFormats
 import net.minecraft.client.util.math.MatrixStack
-import org.lwjgl.opengl.GL11.GL_LINE_LOOP
-import org.lwjgl.opengl.GL11.GL_QUADS
+import org.lwjgl.opengl.GL11
 import java.awt.Color
 
 /**
- * @author cookiedragon234 24/Jun/2020
+ * @author cookiedragon234 25/Jun/2020
  */
-class Panel(
-	val title: String,
-	val children: Collection<DrawableBox>
+class CategoryPanel(
+	val category: Category
 ): DrawableBox() {
 	var open = true
 	var titleHeight = 0f
 	var dragOffset: Vec2f? = null // If this is not null the panel is being dragged
+	val moduleButtons: Collection<ModuleButton> = ModuleManager.modules.filter { it.category == category }.map { ModuleButton(it) }
 	
 	override fun render(matrices: MatrixStack, mousePos: Vec2f) {
-		matrices.draw (glMode = GL_QUADS, format = POSITION_COLOR) {
-			box(this@Panel, Color(0, 0, 0, 70))
+		matrices.draw (glMode = GL11.GL_QUADS, format = VertexFormats.POSITION_COLOR) {
+			box(this@CategoryPanel, Color(0, 0, 0, 20))
 		}
-		matrices.draw (glMode = GL_LINE_LOOP, format = POSITION_COLOR) {
-			box(this@Panel, Color.BLACK)
+		matrices.draw (glMode = GL11.GL_QUADS, format = VertexFormats.POSITION_COLOR) {
+			box(posX + 1f, posY + 1f, rightX - 1f, posY + titleHeight - 1f, Color(0, 0, 0, 80))
 		}
-		val strHeight = RaionFontRenderer.getStringHeight(title)
-		titleHeight = strHeight + 4f
-		RaionFontRenderer.drawCentered(matrices, title, posX + (sizeX / 2), posY + 2f, Color.WHITE.rgb)
+		val strHeight = RaionFontRenderer.getStringHeight(category.toString())
+		titleHeight = strHeight + 8f
+		RaionFontRenderer.drawCentered(matrices, category.toString(), posX + (sizeX / 2), posY + 4f, Color.WHITE.rgb)
 		
 		var currentY = posY + titleHeight
 		if (open) {
-			for (child in children) {
+			moduleButtons.forEach { child ->
 				child.posX = this.posX
 				child.posY = currentY
 				
@@ -62,7 +63,7 @@ class Panel(
 		} else {
 			dragOffset = null
 		}
-		children.forEach {
+		moduleButtons.forEach {
 			it.isBeingRenderered = this.isBeingRenderered && open
 			if (it.mouseDown(mousePos, button, thisConsumed || consumed)) {
 				thisConsumed = true
@@ -74,7 +75,7 @@ class Panel(
 	override fun mouseUp(mousePos: Vec2f, button: Mouse, consumed: Boolean): Boolean {
 		var thisConsumed = false
 		dragOffset = null
-		children.forEach {
+		moduleButtons.forEach {
 			it.isBeingRenderered = this.isBeingRenderered && open
 			if (it.mouseUp(mousePos, button, thisConsumed || consumed)) {
 				thisConsumed = true
@@ -91,7 +92,7 @@ class Panel(
 			this.topLeft.y = mousePos.y - dragOffset.y
 			thisConsumed = true
 		}
-		children.forEach {
+		moduleButtons.forEach {
 			it.isBeingRenderered = this.isBeingRenderered && open
 			if (it.mouseDragged(mousePos, button, thisConsumed || consumed)) {
 				thisConsumed = true

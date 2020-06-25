@@ -20,10 +20,12 @@ open class Box2f(
 	var posY: Float
 		get() = topLeft.y
 		set(value) { topLeft.y = value }
-	val sizeX: Float
+	var sizeX: Float
 		get() = bottomRight.x - topLeft.x
-	val sizeY: Float
+		set(value) { bottomRight.x = posX + value }
+	var sizeY: Float
 		get() = bottomRight.y - topLeft.y
+		set(value) { bottomRight.y = posY + value }
 	var rightX: Float
 		get() = bottomRight.x
 		set(value) { bottomRight.x = value }
@@ -37,4 +39,9 @@ open class Box2f(
 	
 	val corners: Array<Vec2f>
 		get() = arrayOf(Vec2f(posX, bottomY), bottomRight, Vec2f(rightX, posY), topLeft)
+	
+	fun getCornersOffset(offset: Float = 0f): Array<Vec2f> {
+		if (offset == 0f) return corners
+		return arrayOf(Vec2f(posX - offset, bottomY + offset), Vec2f(rightX + offset, bottomY + offset), Vec2f(rightX + offset, posY - offset), Vec2f(posX - offset, posY - offset))
+	}
 }

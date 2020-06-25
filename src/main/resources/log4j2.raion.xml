@@ -5,7 +5,8 @@
         <!--	System out	-->
         <Console name="SysOut" target="SYSTEM_OUT">
             <PatternLayout>
-                <LoggerNamePatternSelector defaultPattern="%style{[%d{HH:mm:ss}]}{blue} %highlight{[%t/%level]}{FATAL=red, ERROR=red, WARN=yellow, INFO=green, DEBUG=green, TRACE=blue} %style{(%logger{1})}{yellow} %highlight{%msg%n}{FATAL=red, ERROR=red, WARN=normal, INFO=normal, DEBUG=normal, TRACE=normal}">
+                <LoggerNamePatternSelector defaultPattern="%style{[%d{HH:mm:ss}]}{blue} %highlight{[%t/%level]}{FATAL=red, ERROR=red, WARN=yellow, INFO=green, DEBUG=green, TRACE=blue} %style{(%logger{1})}{cyan} %highlight{%msg%n}{FATAL=red, ERROR=red, WARN=normal, INFO=normal, DEBUG=normal, TRACE=normal}">
+                    <PatternMatch key="com.raionclient.,me.robeart.,Raion" pattern="%style{[%d{HH:mm:ss}]}{blue} %highlight{[%t/%level]}{FATAL=red, ERROR=red, WARN=yellow, INFO=green, DEBUG=green, TRACE=blue} %style{(%logger{1})}{magenta} %highlight{%msg%n}{FATAL=red, ERROR=red, WARN=normal, INFO=normal, DEBUG=normal, TRACE=normal}" />
                 </LoggerNamePatternSelector>
             </PatternLayout>
         </Console>
@@ -14,6 +15,8 @@
         <Queue name="ServerGuiConsole" ignoreExceptions="true">
             <PatternLayout>
                 <LoggerNamePatternSelector defaultPattern="[%d{HH:mm:ss} %level] (%logger{1}) %msg%n">
+                    <!-- Dont show the logger name for minecraft classes-->
+                    <PatternMatch key="net.minecraft.,com.mojang." pattern="[%d{HH:mm:ss} %level] %msg%n"/>
                 </LoggerNamePatternSelector>
             </PatternLayout>
         </Queue>
@@ -22,6 +25,8 @@
         <RollingRandomAccessFile name="LatestFile" fileName="logs/latest.log" filePattern="logs/%d{yyyy-MM-dd}-%i.log.gz">
             <PatternLayout>
                 <LoggerNamePatternSelector defaultPattern="[%d{HH:mm:ss}] [%t/%level] (%logger{1}) %msg%n">
+                    <!-- Dont show the logger name for minecraft classes-->
+                    <PatternMatch key="net.minecraft.,com.mojang." pattern="[%d{HH:mm:ss}] [%t/%level] (Minecraft) %msg%n"/>
                 </LoggerNamePatternSelector>
             </PatternLayout>
             <Policies>
