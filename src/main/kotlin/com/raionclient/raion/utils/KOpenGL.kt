@@ -1,8 +1,10 @@
 package com.raionclient.raion.utils
 
+import com.mojang.blaze3d.systems.RenderSystem
 import com.raionclient.raion.gui.Box2f
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.BufferBuilder
+import net.minecraft.client.render.BufferRenderer
 import net.minecraft.client.render.Tessellator
 import net.minecraft.client.render.VertexFormat
 import net.minecraft.client.util.math.MatrixStack
@@ -22,6 +24,9 @@ class KOpenGLRenderer(val matrices: Matrix4f, val bufferBuilder: BufferBuilder) 
 class KOpenGLVertex(val matrices: Matrix4f, val bufferBuilder: BufferBuilder)
 
 inline fun <T> MatrixStack.draw(translate: Boolean = false, glMode: Int? = null, format: VertexFormat? = null, action: KOpenGLRenderer.() -> T): T {
+	RenderSystem.enableBlend()
+	RenderSystem.disableTexture()
+	RenderSystem.defaultBlendFunc()
 	push()
 	val model = peek().model
 	val ts = Tessellator.getInstance()
@@ -31,8 +36,16 @@ inline fun <T> MatrixStack.draw(translate: Boolean = false, glMode: Int? = null,
 		if (translate) this.translateToRender()
 		return action(KOpenGLRenderer(model, bb))
 	} finally {
-		ts.draw()
+		try {
+			bb.end()
+			BufferRenderer.draw(bb)
+			//ts.draw()
+		} catch (t: Throwable) {
+			t.printStackTrace()
+		}
 		pop()
+		RenderSystem.enableTexture()
+		RenderSystem.disableBlend()
 	}
 }
 

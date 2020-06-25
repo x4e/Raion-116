@@ -5,20 +5,11 @@ import com.raionclient.raion.gui.Drawable
 import com.raionclient.raion.gui.Panel
 import com.raionclient.raion.module.Category
 import com.raionclient.raion.module.Module
+import com.raionclient.raion.module.ModuleManager
 import com.raionclient.raion.utils.*
-import imgui.ImGui
-import imgui.impl.gl.ImplGL3
-import imgui.impl.glfw.ImplGlfw
-import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.Screen
-import net.minecraft.client.render.VertexFormat
-import net.minecraft.client.render.VertexFormats
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.LiteralText
-import org.lwjgl.glfw.GLFW
-import org.lwjgl.opengl.GL11
-import uno.glfw.GlfwWindow
-import java.awt.Color
 
 
 /**
@@ -44,7 +35,17 @@ object ClickGuiModule: Module("Click Gui", "A clickable gui", Category.RENDER, K
 	object ClickGuiScreen: Screen(LiteralText("Raion ClickGui")) {
 		val panels = arrayListOf<Drawable>()
 		init {
-		
+			var x = 0f
+			for (category in Category.values()) {
+				panels.add(Panel(
+					category.name,
+					ModuleManager.modules.filter { it.category == category }.map {  }
+				).also {
+					it.posX = x
+					it.posY = 20f
+				})
+				x += 150f
+			}
 		}
 		
 		override fun onClose() {
