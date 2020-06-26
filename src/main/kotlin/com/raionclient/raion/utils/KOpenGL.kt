@@ -14,7 +14,7 @@ import java.awt.Color
 /**
  * @author cookiedragon234 24/Jun/2020
  */
-private val mc = MinecraftClient.getInstance()
+val mc = MinecraftClient.getInstance()
 
 class KOpenGLRenderer(val matrices: Matrix4f, val bufferBuilder: BufferBuilder) {
 }
