@@ -16,9 +16,9 @@ import org.lwjgl.opengl.GL11.*
 object StorageEspModule: Module("Storage ESP", "View storage items", Category.RENDER) {
 	init {
 		register { event: PostRenderWorldEvent ->
-			mc.world?.blockEntities?.forEach { entity ->
-				if (isStorage(entity)) {
-					draw3d(translate = true) {
+			draw3d(translate = true) {
+				mc.world?.blockEntities?.forEach { entity ->
+					if (isStorage(entity)) {
 						begin(GL_LINE_LOOP) {
 							color(0f, 1f, 0f, 0.5f)
 							box(Box(entity.pos))

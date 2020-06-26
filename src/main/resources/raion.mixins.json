@@ -20,10 +20,11 @@
         "client.render.MixinBackgroundRenderer",
         "client.render.MixinGameRenderer",
         "client.render.MixinWorldRenderer",
+        "client.render.entity.MixinEntityRenderDispatcher",
         "entity.MixinEntity",
         "entity.MixinLivingEntity"
     ],
-    "refmap": "raion.mixins.refmap.json",
+    "refmap": "raion-116-refmap.json",
     "injectors": {
         "defaultRequire": 1
     }

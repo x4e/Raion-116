@@ -9,10 +9,7 @@ import com.raionclient.raion.module.player.FastPlaceModule
 import com.raionclient.raion.module.player.NoFallModule
 import com.raionclient.raion.module.player.NoRotateModule
 import com.raionclient.raion.module.player.ReachModule
-import com.raionclient.raion.module.render.ClickGuiModule
-import com.raionclient.raion.module.render.ExtraTabModule
-import com.raionclient.raion.module.render.NoRenderModule
-import com.raionclient.raion.module.render.StorageEspModule
+import com.raionclient.raion.module.render.*
 import com.raionclient.raion.utils.Configurable
 import com.raionclient.raion.utils.Saveable
 import net.fabricmc.loader.FabricLoader
@@ -41,6 +38,7 @@ object ModuleManager: Saveable {
 		this += ReachModule
 		
 		this += ClickGuiModule
+		this += EspModule
 		this += ExtraTabModule
 		this += NoRenderModule
 		this += StorageEspModule

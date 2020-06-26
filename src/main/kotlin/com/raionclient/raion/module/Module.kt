@@ -22,7 +22,7 @@ abstract class Module(
 	val category: Category,
 	val defaultKeyBind: Key = Key.UNKNOWN
 ): Serializable {
-	val mc = MinecraftClient.getInstance()
+	protected val mc = MinecraftClient.getInstance()
 	var enabled by BooleanValue("Enabled", false)
 		.addCallback { oldValue, newValue ->
 			if (newValue) {
@@ -58,8 +58,8 @@ abstract class Module(
 		}
 	}
 	
-	open fun onEnabled() {}
-	open fun onDisabled() {}
+	protected open fun onEnabled() {}
+	protected open fun onDisabled() {}
 	
 	override fun read(jsonObject: JsonObject) {
 		if (jsonObject.has(name)) {
@@ -79,8 +79,8 @@ abstract class Module(
 		}
 	}
 	
-	inline fun <reified T> register(noinline lambda: (T) -> Unit) = register(T::class.java, lambda)
-	fun <T> register(type: Class<T>, lambda: (T) -> Unit) {
+	protected inline fun <reified T> register(noinline lambda: (T) -> Unit) = register(T::class.java, lambda)
+	protected fun <T> register(type: Class<T>, lambda: (T) -> Unit) {
 		val listener = ModuleEventListener(lambda, this)
 		EventDispatcher.register(type, listener)
 	}
