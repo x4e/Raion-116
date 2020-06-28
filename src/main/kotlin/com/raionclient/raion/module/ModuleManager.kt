@@ -26,22 +26,26 @@ object ModuleManager: Saveable {
 	val modules: MutableCollection<Module> = hashSetOf()
 	
 	init {
-		this += FlightModule
-		this += InventoryMoveModule
-		this += JesusModule
-		this += NoSlowModule
-		this += VelocityModule
-		
-		this += FastPlaceModule
-		this += NoFallModule
-		this += NoRotateModule
-		this += ReachModule
-		
-		this += ClickGuiModule
-		this += EspModule
-		this += ExtraTabModule
-		this += NoRenderModule
-		this += StorageEspModule
+		try {
+			this += FlightModule
+			this += InventoryMoveModule
+			this += JesusModule
+			this += NoSlowModule
+			this += VelocityModule
+			
+			this += FastPlaceModule
+			this += NoFallModule
+			this += NoRotateModule
+			this += ReachModule
+			
+			this += ClickGuiModule
+			this += EspModule
+			this += ExtraTabModule
+			this += NoRenderModule
+			this += StorageEspModule
+		} catch (t: Throwable) {
+			throw IllegalStateException("Initialising modules", t)
+		}
 	}
 	
 	inline operator fun plusAssign(module: Module) {
@@ -52,12 +56,16 @@ object ModuleManager: Saveable {
 	
 	override fun write(jsonObject: JsonObject) {
 		modules.forEach {
-			it.write(jsonObject)
+			try {
+				it.write(jsonObject)
+			} catch (t: Throwable) { t.printStackTrace() }
 		}
 	}
 	override fun read(jsonObject: JsonObject) {
 		modules.forEach {
-			it.read(jsonObject)
+			try {
+				it.read(jsonObject)
+			} catch (t: Throwable) { t.printStackTrace() }
 		}
 	}
 }

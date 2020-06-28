@@ -18,13 +18,17 @@ object ConfigManager: Configurable {
 	
 	override fun load() {
 		configurables.forEach {
-			it.load()
+			try {
+				it.load()
+			} catch (t: Throwable) { t.printStackTrace() }
 		}
 	}
 	
 	override fun save() {
 		configurables.forEach {
-			it.save()
+			try {
+				it.save()
+			} catch (t: Throwable) { t.printStackTrace() }
 		}
 	}
 }

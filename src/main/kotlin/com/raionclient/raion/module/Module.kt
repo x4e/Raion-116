@@ -2,6 +2,7 @@ package com.raionclient.raion.module
 
 import com.google.gson.JsonObject
 import com.raionclient.raion.event.events.KeyDownEvent
+import com.raionclient.raion.event.events.TickEvent
 import com.raionclient.raion.event.system.EventDispatcher
 import com.raionclient.raion.utils.Key
 import com.raionclient.raion.utils.Serializable
@@ -26,14 +27,24 @@ abstract class Module(
 	var enabled by BooleanValue("Enabled", false)
 		.addCallback { oldValue, newValue ->
 			if (newValue) {
-				onEnabled()
+				if (mc.world != null) {
+					onEnabled()
+				} else {
+					pendingState = true
+				}
 			} else {
-				onDisabled()
+				if (mc.world != null) {
+					onDisabled()
+				} else {
+					pendingState = false
+				}
 			}
 		}
 	var keyBind by KeyValue("Key", defaultKeyBind)
 	val metadata: String?
 		get() = null
+	
+	var pendingState: Boolean? = null
 	
 	val values: MutableCollection<Value<*>>
 	init {
@@ -55,6 +66,13 @@ abstract class Module(
 			if (mc.currentScreen == null && event.key == keyBind) {
 				enabled = enabled.not()
 			}
+		}
+		EventDispatcher.register { event: TickEvent ->
+			when (pendingState) {
+				true -> onEnabled()
+				false -> onDisabled()
+			}
+			pendingState = null
 		}
 	}
 	

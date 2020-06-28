@@ -4,6 +4,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import java.io.File
+import java.io.InputStreamReader
 
 /**
  * @author cookiedragon234 02/May/2020
@@ -20,13 +21,14 @@ interface Saveable: Configurable, Serializable {
 			return
 		}
 		try {
-			configFile.reader().use {
+			val block: (InputStreamReader) -> Unit = {
 				val obj = JsonParser().parse(it)?.asJsonObject ?: error("Corrupt configuration file for $name")
 				read(obj)
 				println("Restored $name")
 			}
+			configFile.reader().use(block)
 		} catch (t: Throwable) {
-			throw IllegalStateException("Error while loading configuration for $name", t)
+			IllegalStateException("Error while loading configuration for $name", t).printStackTrace()
 		}
 	}
 	
@@ -37,6 +39,7 @@ interface Saveable: Configurable, Serializable {
 				write(obj)
 				val gson = GsonBuilder()
 					.setPrettyPrinting()
+					.setLenient()
 					.create()
 				gson.toJson(obj, it)
 				println("Saved $name")

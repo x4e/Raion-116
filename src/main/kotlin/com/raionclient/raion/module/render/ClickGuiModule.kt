@@ -45,11 +45,11 @@ object ClickGuiModule: Module("Click Gui", "A clickable gui", Category.RENDER, K
 	}
 	
 	object ClickGuiScreen: Screen(LiteralText("Raion ClickGui")) {
-		val panels = arrayListOf<Drawable>()
-		init {
+		val panels by lazy {
+			val arr = arrayListOf<Drawable>()
 			var x = 10f
 			for (category in Category.values()) {
-				panels.add(CategoryPanel(
+				arr.add(CategoryPanel(
 					category
 				).also {
 					it.posX = x
@@ -57,6 +57,7 @@ object ClickGuiModule: Module("Click Gui", "A clickable gui", Category.RENDER, K
 				})
 				x += 150f
 			}
+			arr
 		}
 		
 		override fun onClose() {

@@ -13,7 +13,7 @@
     "entrypoints": {
         "main": [
             {
-                "value": "com.raionclient.raion.Raion::init",
+                "value": "com.raionclient.raion.Raion",
                 "adapter": "kotlin"
             }
         ]
